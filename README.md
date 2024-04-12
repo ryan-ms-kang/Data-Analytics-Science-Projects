@@ -5,7 +5,9 @@ Thank you so very much for checking out my portfolio, and any feedback/complimen
 
 ## About me 
 
-I am an inquisitive and restless "young" boy tapping into the territory of the unknown, unraveling the world with the power of data (and much caffein). Boundaries are meant to be crossed, and with that in mind, I always seek to cross my comfort zone and tackle on new exciting challenges that await. I am currently seeking new opportunities in Data Analytics or Data Science, particularly focusing on product analytics. I was initially drawn to data from user engagement with various products 
+I am an inquisitive and restless "young" boy tapping into the territory of the unknown, unraveling the world with the power of data (and much caffein). Boundaries are meant to be crossed, and with that in mind, I always seek to cross my comfort zone and tackle on new exciting challenges that await. 
+
+I am currently seeking new opportunities in Data Analytics or Data Science, particularly focusing on product analytics. I was initially drawn to how user behavior could be inferred through data and the impact it could have on the business. 
 
 📚 UC Berkeley B.A. in Data Science (Go bears!)
 
