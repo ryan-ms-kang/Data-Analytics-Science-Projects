@@ -9,7 +9,9 @@ I am an inquisitive and restless "young" boy tapping into the territory of the u
 
 I am currently seeking new opportunities in Data Analytics or Data Science, particularly focusing on product analytics. I was initially drawn to how user behavior could be inferred through data and the impact it could have on the business. 
 
-📚 UC Berkeley B.A. in Data Science (Go bears!)
+- **📚** UC Berkeley B.A. in Data Science (Go bears!)
+- **💻** Python (Numpy, Pandas), SQL (PostgreSQL, MySQL), Data Visualization (Tableau, Apache Superset, matplotlib, seaborn), Machine Learning (scikit-learn, sklearn)
+- **🎮** Music, PC & mobile games, Coffee, Binge watching TV shows
 
 ### Contact info
 
