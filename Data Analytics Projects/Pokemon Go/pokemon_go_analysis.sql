@@ -1,10 +1,10 @@
-# Create new Database (if it doesn't exist)
-# CREATE DATABASE pokemon_go;
+-- Create new Database (if it doesn't exist)
+-- CREATE DATABASE pokemon_go;
 
-# Specify (if multiple) which DB to use
+-- Specify (if multiple) which DB to use
 USE pokemon_go;
 
-# Create new Table with data constraints
+-- Create new Table with data constraints
 CREATE TABLE pokemon_stats (
     Number INT,
     Name VARCHAR(512),
@@ -757,109 +757,131 @@ VALUES
 	('720', 'Hoopa', 'Psychic', 'Ghost', '600', '80', '110', '60', '150', '130', '70', '6', 'True', 'Purple', 'False', '', 'Undiscovered', '', 'False', '0.51', '9', '3', 'head_only'),
 	('721', 'Volcanion', 'Fire', 'Water', '600', '80', '110', '120', '130', '90', '70', '6', 'True', 'Brown', 'False', '', 'Undiscovered', '', 'False', '1.7', '195', '3', 'quadruped');
     
-    # Which Pokemon has the highest total stats?
+    -- Which Pokemon has the highest total stats?
     SELECT 
-		Name, 
+	Name, 
         Total
     FROM pokemon_stats
     ORDER BY Total DESC
     LIMIT 1;
     
-    # Distribution of each Primary Type
+    -- Distribution of each Primary Type
     SELECT 
-		Type_1,
+	Type_1,
         COUNT(*) AS count_of_type
-	FROM pokemon_stats
+    FROM pokemon_stats
     GROUP BY 1
     ORDER BY 2 DESC;
     
-    # How many legendaries are there?
+    -- How many legendaries are there?
     SELECT COUNT(*)
     FROM pokemon_stats
     WHERE isLegendary = 'TRUE';
     
-    # What are the top three types with the lowest average catch rate?
+    -- What are the top three types with the lowest average catch rate?
     SELECT 
-		Type_1,
+	Type_1,
         AVG(Catch_Rate) AS avg_catch_rate
-	FROM pokemon_stats
+    FROM pokemon_stats
     GROUP BY 1
     ORDER BY 2 DESC
     LIMIT 3;
     
-    # What are the top three types for the strongest attacker? 
+    -- What are the top three types for the strongest attacker? 
     SELECT 
-		Type_1,
+	Type_1,
         AVG(Attack + Sp_Atk) AS avg_attack_by_type
-	FROM pokemon_stats
+    FROM pokemon_stats
     GROUP BY 1
     ORDER BY 2 DESC
     LIMIT 3;
     
-    # Strongest defender?
+    -- Strongest defender?
     SELECT 
-		Type_1,
+	Type_1,
         AVG(Defense + Sp_Def) AS avg_defense_by_type
-	FROM pokemon_stats
+    FROM pokemon_stats
     GROUP BY 1
 	ORDER BY 2 DESC
     LIMIT 3;
     
-    # Top 5 pokemons from each type with the highest total stats
+    -- Top 5 pokemons from each type with the highest total stats
     SELECT
-		Name,
+	Name,
         Type_1,
         Total
     FROM (
-		SELECT
-			Name,
+	SELECT
+	    Name,
             Type_1,
             Total,
-			DENSE_RANK() OVER (
-				PARTITION BY Type_1
-				ORDER BY Total DESC
-			) AS total_rank
-		FROM pokemon_stats
+	    DENSE_RANK() OVER (
+		PARTITION BY Type_1
+		ORDER BY Total DESC
+		) AS total_rank
+	FROM pokemon_stats
     ) AS total_ranked
     WHERE total_rank <= 5
     ORDER BY 2 DESC;
     
-    # The ditrbution of pokemon by primary type whose total stats are within the upper quartile
+    -- The ditrbution of pokemon by primary type whose total stats are within the upper quartile (<= 2)
     WITH stat_quartile AS (
-		SELECT 
-			Type_1,
-			Total,
-			NTILE(4) OVER (
-				PARTITION BY Type_1
-				ORDER BY Total DESC
-			) AS stats_percentile
-		FROM pokemon_stats
-	)
+	SELECT 
+	    Type_1,
+	    Total,
+            NTILE(4) OVER (
+		PARTITION BY Type_1
+		ORDER BY Total DESC
+	    ) AS stats_percentile
+	FROM pokemon_stats
+    )
     
     SELECT 
-		Type_1,
+	Type_1,
         COUNT(*) AS count_of_type_by_quartile
     FROM stat_quartile
     WHERE stats_percentile = 4
     GROUP BY 1
     ORDER BY 2 DESC;
     
-    /* Firstly, I'm going to concatenate Attack + Sp.Atk + Speed, and Defense + Sp.Def + HP.
-	 * Then, I'll take average for each value by each primary type.
-     * With the resulting table, I'll rank them 
-     */
-	
     WITH atk_def AS (
-		SELECT 
-			Type_1, 
+	SELECT 
+	    Type_1, 
             AVG(Attack + Sp_Atk + Speed) AS Offensive,
             AVG(Defense + Sp_Def + HP) AS Defensive
-		FROM pokemon_stats
+	FROM pokemon_stats
         GROUP BY 1
     )
-    
-    SELECT *
+    -- Get the top three types with the highest attack
+	
+    SELECT 
+	Type_1,
+        Offensive
 	FROM atk_def
-    ORDER BY 1 DESC, 2 DESC;
+    ORDER BY 2 DESC
+    LIMIT 3;
+    
+    -- Get the top three types with the highest defense
+    
+    SELECT 
+	Type_1,
+        Defensive
+	FROM atk_def
+    ORDER BY 2 DESC
+    LIMIT 3;
+    
+    SELECT Type_1
+    FROM atk_def
+    WHERE Offensive IN (
+	SELECT MAX(Offensive)
+	FROM atk_def
+    );
+    
+    SELECT Type_1
+    FROM atk_def
+    WHERE Defensive IN (
+	SELECT MAX(Defensive)
+	FROM atk_def
+    );
     
     
