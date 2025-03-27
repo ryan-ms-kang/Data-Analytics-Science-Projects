@@ -1,0 +1,16 @@
+# Ignore .DS_Store files (macOS)
+.DS_Store
+
+# Ignore Python virtual environments
+.python-version
+airflow-venv/
+
+# Ignore compiled Python files
+__pycache__/
+
+# Ignore specific JSON files
+ryans-etl-project-3cd5f7d97f76.json
+ryans-etl-project-efa2e93afccf.json
+
+# Ignore scripts folder (if necessary)
+scripts/
